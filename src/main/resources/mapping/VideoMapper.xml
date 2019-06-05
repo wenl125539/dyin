@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dyin.dao.VideoMapper">
+  <resultMap id="BaseResultMap" type="com.dyin.pojo.Video">
+    <id column="videoID" jdbcType="BIGINT" property="videoid" />
+    <result column="userID" jdbcType="VARCHAR" property="userid" />
+    <result column="videoPath" jdbcType="VARCHAR" property="videopath" />
+    <result column="dz" jdbcType="BIGINT" property="dz" />
+    <result column="videoIntro" jdbcType="VARCHAR" property="videoIntro" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    videoID, userID, videoPath, dz, videoIntro
+  </sql>
+
+  <select id="selectVideoById" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from video
+    where videoID = #{videoid,jdbcType=BIGINT}
+  </select>
+
+  <select id="selectVideoByUserID" parameterType="com.dyin.pojo.Video" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from video
+    where userID = #{userid,jdbcType=BIGINT}
+  </select>
+
+  <delete id="deleteVideoById" parameterType="java.lang.Long">
+    delete from video
+    where videoID = #{videoid,jdbcType=BIGINT}
+  </delete>
+
+  <insert id="insertVideo" parameterType="com.dyin.pojo.Video">
+    insert into video
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="videoid != null">
+        videoID,
+      </if>
+      <if test="userid != null">
+        userID,
+      </if>
+      <if test="videopath != null">
+        videoPath,
+      </if>
+      <if test="dz != null">
+        dz,
+      </if>
+      <if test="videoIntro != null">
+        videoIntro,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="videoid != null">
+        #{videoid,jdbcType=BIGINT},
+      </if>
+      <if test="userid != null">
+        #{userid,jdbcType=VARCHAR},
+      </if>
+      <if test="videopath != null">
+        #{videopath,jdbcType=VARCHAR},
+      </if>
+      <if test="dz != null">
+        #{dz,jdbcType=BIGINT},
+      </if>
+      <if test="videoIntro != null">
+        #{videoIntro,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+
+  <select id="selectAllVideo" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List"/>
+    from video
+  </select>
+
+
+
+  <update id="updateNum" parameterType="com.dyin.pojo.Video" >
+   update video
+    set dz = dz + 1
+     where videoID = #{videoid,jdbcType=BIGINT}
+  </update>
+
+</mapper>

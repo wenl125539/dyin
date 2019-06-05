@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dyin.dao.PlMapper">
+  <resultMap id="BaseResultMap" type="com.dyin.pojo.Pl">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="dz" jdbcType="BIGINT" property="dz" />
+    <result column="comment" jdbcType="VARCHAR" property="comment" />
+    <result column="userID" jdbcType="VARCHAR" property="userid" />
+    <result column="videoID" jdbcType="BIGINT" property="videoid" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, dz, comment, userID, videoID
+  </sql>
+
+
+  <select id="selectPlByVideoId" parameterType="com.dyin.pojo.Pl" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from pl
+    where  videoID = #{videoid,jdbcType=BIGINT}
+  </select>
+
+  <select id="selectPlById" parameterType="com.dyin.pojo.Pl" resultType="com.dyin.pojo.Pl">
+    select
+    <include refid="Base_Column_List" />
+    from pl
+    where  id = #{id,jdbcType=BIGINT}
+  </select>
+
+  <delete id="deletePlById" parameterType="java.lang.Long">
+    delete from pl
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+
+  <insert id="insertPl" parameterType="com.dyin.pojo.Pl">
+    insert into pl
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="dz != null">
+        dz,
+      </if>
+      <if test="comment != null">
+        comment,
+      </if>
+      <if test="userid != null">
+        userID,
+      </if>
+      <if test="videoid != null">
+        videoID,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="dz != null">
+        #{dz,jdbcType=BIGINT},
+      </if>
+      <if test="comment != null">
+        #{comment,jdbcType=VARCHAR},
+      </if>
+      <if test="userid != null">
+        #{userid,jdbcType=VARCHAR},
+      </if>
+      <if test="videoid != null">
+        #{videoid,jdbcType=BIGINT},
+      </if>
+    </trim>
+  </insert>
+
+  <update id="updateNum" parameterType="com.dyin.pojo.Pl" >
+   update pl
+    set dz = dz + 1
+     where id = #{id,jdbcType=BIGINT}
+  </update>
+
+</mapper>
